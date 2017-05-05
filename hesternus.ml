@@ -195,7 +195,7 @@ let get_all_releases token (da,db) repos =
 
 let print_releases releases =
   if List.length releases = 0 then () else begin
-  Fmt.pr "## Releases this week\n\n";
+  Fmt.pr "## Releases\n\n";
   List.iter (fun (user,repo,r) ->
     let open Github_t in
     let s = add_release user repo r in
@@ -208,7 +208,7 @@ let print_prs i =
     let open Github_t in
     let merged = List.filter (fun (u,r,i,cla,ev) -> cla = `Merged) i in
     if List.length merged > 0 then begin
-      Fmt.pr "## PRs merged this week\n\n";
+      Fmt.pr "## PRs merged\n\n";
       List.iter (fun (u,r,i,_,ev) ->
         let pr = add_pr u r i in
         let a = get_actors_from_event ev in
@@ -218,7 +218,7 @@ let print_prs i =
     end;
     let closed = List.filter (fun (u,r,i,cla,ev) -> cla = `Closed) i in
     if List.length closed > 0 then begin
-      Fmt.pr "## PRs closed this week without merge\n\n";
+      Fmt.pr "## PRs closed without merge\n\n";
       List.iter (fun (u,r,i,_,ev) ->
         let pr = add_pr u r i in
         let a = get_actors_from_event ev in
@@ -272,12 +272,12 @@ let print_issues i =
 
 let print_intro repos =
   (* TODO do an English concat with "and" *)
-  let rs = String.concat " " (List.map (fun (u,r) -> add_repo u r) repos) in
-  Fmt.pr "This report covers interesting weekly developments in %s.\n\nFILLME\n\n" rs
+  let rs = String.concat " " (List.map (fun (u,r) -> Fmt.strf "[%s]" (add_repo u r)) repos) in
+  Fmt.pr "This report covers weekly developments in the %s repositories.\n\nFILLME\n\n" rs
 
 let print_footer repos =
   let user,repo = List.hd repos in
-  Fmt.pr "## External Links or Blogs\n\nFILLME\n\nOther reports in this series can be accessed in [%s/%s](https://github.com/%s/%s/tree/master/reports/).\n\n" user repo user repo
+  Fmt.pr "## External Links or Blogs\n\nFILLME\n\nOther reports in this series can be browsed directly in the repository at [%s/%s:/reports](https://github.com/%s/%s/tree/master/reports/).\n\n" user repo user repo
   
 let run (token:Github.Token.t) repos week year =
   (* FIXME week+1 is because the Internet assigns Jan2nd as week 1 *)
