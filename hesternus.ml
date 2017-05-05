@@ -273,10 +273,11 @@ let print_issues i =
 let print_intro repos =
   (* TODO do an English concat with "and" *)
   let rs = String.concat " " (List.map (fun (u,r) -> add_repo u r) repos) in
-  Fmt.pr "This report covers interesting weekly developments in %s.\n\nFILLME\n" rs
+  Fmt.pr "This report covers interesting weekly developments in %s.\n\nFILLME\n\n" rs
 
-let print_footer () =
-  Fmt.pr "## External Links or Blogs\n\nFILLME\n\n"
+let print_footer repos =
+  let user,repo = List.hd repos in
+  Fmt.pr "## External Links or Blogs\n\nFILLME\n\nOther reports in this series can be accessed in [%s/%s](https://github.com/%s/%s/tree/master/reports/\n\n" user repo user repo
   
 let run (token:Github.Token.t) repos week year =
   (* FIXME week+1 is because the Internet assigns Jan2nd as week 1 *)
@@ -294,7 +295,7 @@ let run (token:Github.Token.t) repos week year =
   print_releases releases;
   print_prs prs;
   print_issues issues;
-  print_footer ();
+  print_footer repos;
   print_md_refs ()
 
 open Cmdliner
@@ -326,7 +327,7 @@ let cmd =
     Arg.(value & opt int default_year & info ["y";"year"] ~docv:"YEAR" ~doc)
   in
   let repos =
-    let doc = "GitHub repositories to query (user/repo)" in
+    let doc = "GitHub repositories to query (user/repo). The first repository in the list will be considered the main one where the reports will be committed to." in
     Arg.(non_empty & pos_all (pair ~sep:'/' string string) [] & info [] ~docv:"REPOSITORIES" ~doc)
   in
   let man = [
