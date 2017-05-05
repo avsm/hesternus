@@ -208,7 +208,7 @@ let print_prs i =
     let open Github_t in
     let merged = List.filter (fun (u,r,i,cla,ev) -> cla = `Merged) i in
     if List.length merged > 0 then begin
-      Fmt.pr "### PRs merged this week\n\n";
+      Fmt.pr "## PRs merged this week\n\n";
       List.iter (fun (u,r,i,_,ev) ->
         let pr = add_pr u r i in
         let a = get_actors_from_event ev in
@@ -218,7 +218,7 @@ let print_prs i =
     end;
     let closed = List.filter (fun (u,r,i,cla,ev) -> cla = `Closed) i in
     if List.length closed > 0 then begin
-      Fmt.pr "### PRs closed this week without merge\n\n";
+      Fmt.pr "## PRs closed this week without merge\n\n";
       List.iter (fun (u,r,i,_,ev) ->
         let pr = add_pr u r i in
         let a = get_actors_from_event ev in
@@ -277,7 +277,7 @@ let print_intro repos =
 
 let print_footer repos =
   let user,repo = List.hd repos in
-  Fmt.pr "## External Links or Blogs\n\nFILLME\n\nOther reports in this series can be accessed in [%s/%s](https://github.com/%s/%s/tree/master/reports/\n\n" user repo user repo
+  Fmt.pr "## External Links or Blogs\n\nFILLME\n\nOther reports in this series can be accessed in [%s/%s](https://github.com/%s/%s/tree/master/reports/).\n\n" user repo user repo
   
 let run (token:Github.Token.t) repos week year =
   (* FIXME week+1 is because the Internet assigns Jan2nd as week 1 *)
