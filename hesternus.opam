@@ -1,0 +1,18 @@
+opam-version: "1.2"
+maintainer: "anil@recoil.org"
+authors: [ "Anil Madhavapeddy" ]
+homepage: "https://github.com/avsm/hesternus"
+bug-reports: "https://github.com/avsm/hesternus/issues"
+dev-repo: "https://github.com/avsm/hesternus.git"
+license: "ISC"
+tags: ["org:mirage" "org:ocamllabs"]
+build: [ "jbuilder" "build" "--root" "." "-j" jobs "@install" ]
+depends: [
+  "cmdliner"
+  "calendar"
+  "ptime"
+  "ocamlfind" {build}
+  "jenga" {build}
+  "github" {>="2.2.0"}
+]
+available: [ocaml-version >= "4.03.0"]

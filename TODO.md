@@ -1,0 +1,1 @@
+- upstream: expose `Jar_cli` in ocaml-github directly

@@ -1,0 +1,13 @@
+(jbuild_version 1)
+
+(executables 
+ ((names (hesternus))
+  (libraries (github.unix cmdliner calendar ptime))
+  (flags (:standard -short-paths)) 
+  ))
+
+(install
+ ((section bin)
+  (files 
+   ((hesternus.exe as hesternus)
+    ))))
